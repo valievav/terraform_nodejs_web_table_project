@@ -1,3 +1,12 @@
+############### NODEJS-MYSQL PROJECT
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+
+
+############### TERRAFORM
 # Local .terraform directories
 **/.terraform/*
 
