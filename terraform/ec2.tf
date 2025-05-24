@@ -6,11 +6,6 @@
   - 3000 (for nodejs app) // ip:3000
  */
 
-# define default vpc (instead of hardcoding the vpc id)
-data "aws_vpc" "default" {
-  default = true
-}
-
 # ec2
 resource "aws_instance" "tf_ec2" {
   ami           = "ami-0a94c8e4ca2674d5a"  # ubuntu image
@@ -21,28 +16,28 @@ resource "aws_instance" "tf_ec2" {
   depends_on = [aws_s3_object.tf_s3_object]  # make sure s3 bucket created first, and ec2 after that
 
   # setup commands to run on instance creation
-  user_data = <<-EOF
-              #!/bin/bash
+  user_data                   = <<-EOF
+                                  #!/bin/bash
 
-              # Git clone
-              git clone https://github.com/verma-kunal/nodejs-mysql.git /home/ubuntu/nodejs-mysql
-              cd /home/ubuntu/nodejs-mysql
+                                  # Git clone
+                                  git clone https://github.com/verma-kunal/nodejs-mysql.git /home/ubuntu/nodejs-mysql
+                                  cd /home/ubuntu/nodejs-mysql
 
-              # install nodejs
-              sudo apt update -y
-              sudo apt install -y nodejs npm
+                                  # install nodejs
+                                  sudo apt update -y
+                                  sudo apt install -y nodejs npm
 
-              # edit env vars
-              echo "DB_HOST=}" | sudo tee .env
-              echo "DB_USER=" | sudo tee -a .env
-              sudo echo "DB_PASS=" | sudo tee -a .env
-              echo "DB_NAME=" | sudo tee -a .env
-              echo "TABLE_NAME=users" | sudo tee -a .env
-              echo "PORT=3000" | sudo tee -a .env
+                                  # edit env vars
+                                  echo "DB_HOST=${local.rds_endpoint}" | sudo tee .env
+                                  echo "DB_USER=${aws_db_instance.tf_rds.username}" | sudo tee -a .env
+                                  sudo echo "DB_PASS=${aws_db_instance.tf_rds.password}" | sudo tee -a .env
+                                  echo "DB_NAME=${aws_db_instance.tf_rds.db_name}" | sudo tee -a .env
+                                  echo "TABLE_NAME=users" | sudo tee -a .env
+                                  echo "PORT=3000" | sudo tee -a .env
 
-              # start server
-              npm install
-              EOF
+                                  # start server
+                                  npm install
+                                  EOF
 
   tags = {
     Name = "ec2_nodejs_server"

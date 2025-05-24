@@ -8,5 +8,10 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL
 );
 
-INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');
-INSERT INTO users (name, email) VALUES ('Jane Smith', 'jane@example.com');
+INSERT INTO users (name, email) VALUES ('Dean Winchester', 'dean.winchester@example.com');
+INSERT INTO users (name, email) VALUES ('Sam Winchester', 'sam.winchester@example.com');
+INSERT INTO users (name, email) VALUES ('Castiel', 'castiel@example.com');
+INSERT INTO users (name, email) VALUES ('Sam Winchester', 'sam.winchester@example.com');
+INSERT INTO users (name, email) VALUES ('Charlie Bradbury', 'charlie.bradbury@example.com');
+INSERT INTO users (name, email) VALUES ('Rowena MacLeod', 'rowena.macleod@example.com');
+INSERT INTO users (name, email) VALUES ('Bobby Singer', 'bobby.singer@example.com');
